@@ -8,13 +8,6 @@ W_HEIGHT = 1000
 
 PLYR_MOVE_SPEED = 5
 
-class MoveEnum(Enum):
-    NONE = auto()
-    UP = auto()
-    DOWN = auto()
-    LEFT = auto()
-    RIGHT = auto()
-
 class PlayerSprite(arcade.AnimatedWalkingSprite):
     def __init__(self, scale:float, speed:int, life:int, game_window, strength:int):
         super().__init__()
@@ -30,21 +23,6 @@ class PlayerSprite(arcade.AnimatedWalkingSprite):
     def return_strength(self):
         return self.strength
 
-    def gain_strength(self, increase:int):
-        return self.strength + increase
-
-    def move(self, direction:MoveEnum):
-
-        if direction == MoveEnum.UP:
-            self.center_y += self.speed
-        elif direction == MoveEnum.DOWN:
-            self.center_y -= self.speed
-        elif direction == MoveEnum.LEFT:
-            self.center_x -=self.speed
-        elif direction == MoveEnum.RIGHT:
-            self.center_x += self.speed
-        else: #should be MoveEnum.NONE
-            pass
 
 class MultiLayeredWindow (arcade.Window):
     def __init__(self):
@@ -54,7 +32,7 @@ class MultiLayeredWindow (arcade.Window):
         #self.map_location = pathlib.Path.cwd() / 'Assets' / 'humble_begins.tmx'
         #self.map_location = pathlib.Path.cwd() / 'Assets' / 'test.tmx'
         self.maplist = None
-        #self.walllist = None
+
 
         #player inits
         self.player = None
@@ -67,7 +45,7 @@ class MultiLayeredWindow (arcade.Window):
     def setup(self):
         arcade.set_background_color(arcade.color.RED_DEVIL)
         self.animate_player_sprite()
-        self.spawn_power_up()
+        self.spawn_power_up(300, 300)
 
         """ Failed map code - use collection of imgs
        # sample_tiles = arcade.tilemap.read_tmx(str(self.tileset_loc))
@@ -77,11 +55,21 @@ class MultiLayeredWindow (arcade.Window):
         self.walllist = arcade.tilemap.process_layer(sample__map, "walls", 1)
         """
 
-    def spawn_power_up(self):
+    def spawn_power_up(self, x, y):
+
         strengthCoinPath = pathlib.Path.cwd() / 'Assets' / 'coin_gold.png'
         self.powerUpList = arcade.SpriteList()
-        self.strengthCoin = arcade.Sprite(str(strengthCoinPath), 1, center_x= 400, center_y= 200)
-        self.powerUpList.append(self.strengthCoin)
+        self.strengthCoin1 = arcade.AnimatedTimeSprite(1, center_x=x, center_y=y)
+
+        coin_frames = []
+        for col in range(8):
+            frame = arcade.load_texture(str(strengthCoinPath), x=col*32, y=0, height=32, width=32)
+            coin_frames.append(frame)
+        self.strengthCoin1.textures = coin_frames
+        self.powerUpList.append(self.strengthCoin1)
+
+    #def animate_strength_coin(self):
+
 
     def animate_player_sprite(self):
         # player setup
@@ -118,6 +106,9 @@ class MultiLayeredWindow (arcade.Window):
         elif key == arcade.key.DOWN:
             self.player.change_y = -PLYR_MOVE_SPEED
 
+        elif key == arcade.key.SPACE:
+            print(self.player.strength)
+
     def on_key_release(self, key: int, modifiers: int):
         """ Movement"""
         if self.player.change_x < 0 and key == arcade.key.LEFT:
@@ -141,12 +132,15 @@ class MultiLayeredWindow (arcade.Window):
 
         self.playerList.update()
         self.playerList.update_animation()
+        self.strengthCoin1.update_animation()
 
-        #collision test power up here
+        # collision test power up here
         for self.strengthCoin in self.powerUpList:
             items_touched = arcade.check_for_collision_with_list(self.strengthCoin, self.playerList)
             if len(items_touched) > 0:
                 self.strengthCoin.kill()
+                self.player.strength += 1
+
 
 
 def main():
