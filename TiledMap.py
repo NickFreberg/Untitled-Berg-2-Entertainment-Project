@@ -24,14 +24,22 @@ class PlayerSprite(arcade.AnimatedWalkingSprite):
         return self.strength
 
 
+
+
 class MultiLayeredWindow (arcade.Window):
     def __init__(self):
         super().__init__(W_WIDTH, W_HEIGHT, "Layerssz")
 
-       # self.tileset_loc = pathlib.Path.cwd() / 'Assets' / 'PathAndObjects.tsx'
-        #self.map_location = pathlib.Path.cwd() / 'Assets' / 'humble_begins.tmx'
+        self.tileset_loc = pathlib.Path.cwd() / 'Assets' / 'RPG.tsx'
+        self.map_location = pathlib.Path.cwd() / 'Assets' / 'Test.tmx'
         #self.map_location = pathlib.Path.cwd() / 'Assets' / 'test.tmx'
-        self.maplist = None
+        self.floorlist = None
+        self.wallslist = None
+        self.doorslist = None
+        self.bedlist = None
+        self.obstacleslist = None
+        self.randolist = None
+        self.simple_Physics:arcade.PhysicsEngineSimple = None
 
 
         #player inits
@@ -47,29 +55,28 @@ class MultiLayeredWindow (arcade.Window):
         self.animate_player_sprite()
         self.spawn_power_up(300, 300)
 
-        """ Failed map code - use collection of imgs
-       # sample_tiles = arcade.tilemap.read_tmx(str(self.tileset_loc))
         sample__map = arcade.tilemap.read_tmx(str(self.map_location))
-        self.maplist = arcade.tilemap.process_layer(sample__map, "ground", 1)
+        self.floorlist = arcade.tilemap.process_layer(sample__map, "Floor", 1)
+        self.wallslist = arcade.tilemap.process_layer(sample__map, "Wall", 1)
+       # self.doorslist = arcade.tilemap.process_layer(sample__map, "Doors", 1)
+        #self.bedlist = arcade.tilemap.process_layer(sample__map, "bed", 1)
+        #self.obstacleslist = arcade.tilemap.process_layer(sample__map, "Obstacles/Furniture", 1)
+        #self.randolist = arcade.tilemap.process_layer(sample__map, "Tile Layer 6", 1)
 
-        self.walllist = arcade.tilemap.process_layer(sample__map, "walls", 1)
-        """
+        self.simple_Physics = arcade.PhysicsEngineSimple(self.player, self.wallslist)
+
 
     def spawn_power_up(self, x, y):
 
         strengthCoinPath = pathlib.Path.cwd() / 'Assets' / 'coin_gold.png'
         self.powerUpList = arcade.SpriteList()
         self.strengthCoin1 = arcade.AnimatedTimeSprite(1, center_x=x, center_y=y)
-
         coin_frames = []
         for col in range(8):
             frame = arcade.load_texture(str(strengthCoinPath), x=col*32, y=0, height=32, width=32)
             coin_frames.append(frame)
         self.strengthCoin1.textures = coin_frames
         self.powerUpList.append(self.strengthCoin1)
-
-    #def animate_strength_coin(self):
-
 
     def animate_player_sprite(self):
         # player setup
@@ -124,6 +131,12 @@ class MultiLayeredWindow (arcade.Window):
         arcade.start_render()
         self.playerList.draw()
         self.powerUpList.draw()
+        self.floorlist.draw()
+        self.wallslist.draw()
+      #  self.doorslist.draw()
+      #  self.bedlist.draw()
+       # self.obstacleslist.draw()
+       # self.randolist.draw()
 
         #self.maplist.draw()
         #self.walllist.draw()
