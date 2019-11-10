@@ -27,10 +27,6 @@ class PlayerSprite(arcade.AnimatedWalkingSprite):
 class MultiLayeredWindow (arcade.Window):
     def __init__(self):
         super().__init__(W_WIDTH, W_HEIGHT, "Layerssz")
-
-       # self.tileset_loc = pathlib.Path.cwd() / 'Assets' / 'PathAndObjects.tsx'
-        #self.map_location = pathlib.Path.cwd() / 'Assets' / 'humble_begins.tmx'
-        #self.map_location = pathlib.Path.cwd() / 'Assets' / 'test.tmx'
         self.maplist = None
 
 
@@ -46,14 +42,6 @@ class MultiLayeredWindow (arcade.Window):
         arcade.set_background_color(arcade.color.RED_DEVIL)
         self.animate_player_sprite()
         self.spawn_power_up(300, 300)
-
-        """ Failed map code - use collection of imgs
-       # sample_tiles = arcade.tilemap.read_tmx(str(self.tileset_loc))
-        sample__map = arcade.tilemap.read_tmx(str(self.map_location))
-        self.maplist = arcade.tilemap.process_layer(sample__map, "ground", 1)
-
-        self.walllist = arcade.tilemap.process_layer(sample__map, "walls", 1)
-        """
 
     def spawn_power_up(self, x, y):
 
