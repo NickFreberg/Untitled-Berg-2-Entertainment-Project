@@ -45,6 +45,7 @@ class MultiLayeredWindow (arcade.Window):
         #player inits
         self.player = None
         self.playerList = None
+        self.inventoryDictionary = None
 
         #power ups/objects
         self.strengthCoin = None
@@ -64,6 +65,9 @@ class MultiLayeredWindow (arcade.Window):
         #self.randolist = arcade.tilemap.process_layer(sample__map, "Tile Layer 6", 1)
 
         self.simple_Physics = arcade.PhysicsEngineSimple(self.player, self.wallslist)
+
+
+
 
 
     def spawn_power_up(self, x, y):
@@ -115,6 +119,7 @@ class MultiLayeredWindow (arcade.Window):
 
         elif key == arcade.key.SPACE:
             print(self.player.strength)
+            self.manageInventory()
 
     def on_key_release(self, key: int, modifiers: int):
         """ Movement"""

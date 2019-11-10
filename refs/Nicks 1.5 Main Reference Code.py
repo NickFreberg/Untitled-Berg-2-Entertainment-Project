@@ -189,9 +189,9 @@ class ArcadeButWithStuff(arcade.Window):
         self.frame_count = 0
         self.enemies_on_map = 1
 
-        self.shot_sound = arcade.load_sound(pathlib.Path.cwd() / 'Assets' / "Yeet.wav")
-        self.enemy_shot_sound = arcade.load_sound(pathlib.Path.cwd() / 'Assets' / "EnemyMagic.wav")
-        self.enemy_hit_sound = arcade.load_sound(pathlib.Path.cwd() / 'Assets' / "EnemyHit.wav")
+        self.shot_sound = arcade.load_sound(pathlib.Path.cwd() / 'assets' / "bell.wav")
+        self.enemy_shot_sound = arcade.load_sound(pathlib.Path.cwd() / 'assets' / "enemyblast.wav")
+        self.enemy_hit_sound = arcade.load_sound(pathlib.Path.cwd() / 'assets' / "Enemyblast2.wav")
         self.player_hit_sound = None
         self.game_over = arcade.load_sound(pathlib.Path.cwd() / 'Assets' / "Game Over.wav")
         self.win = arcade.load_sound(pathlib.Path.cwd() / 'Assets' / "Win.wav")
@@ -206,20 +206,20 @@ class ArcadeButWithStuff(arcade.Window):
         self.enemy_bullet_list = arcade.SpriteList()
 
         # set the player at its coordinates
-        self.player_sprite = arcade.Sprite(pathlib.Path.cwd() / 'Assets' / "PlayerSprite1.png")
+        self.player_sprite = arcade.Sprite(pathlib.Path.cwd() / 'assets' / "PlayerShip.png")
         self.player_sprite.center_x = 10
         self.player_sprite.center_y = 95
         self.player_list.append(self.player_sprite)
 
         # set initial enemy position
-        self.enemy_sprite = arcade.Sprite(pathlib.Path.cwd() / 'Assets' / "Enemy1.png")
+        self.enemy_sprite = arcade.Sprite(pathlib.Path.cwd() / 'assets' / "enemy-ship-1.png")
         self.enemy_sprite.center_x = 269
         self.enemy_sprite.center_y = 95
         self.enemy_list.append(self.enemy_sprite)
 
         # Create the ground
         for i in range(-200, 5000, 64):
-            wall = arcade.Sprite(pathlib.Path.cwd() / 'Assets' / 'Tiles' / "GrassUpDirt.png")
+            wall = arcade.Sprite(pathlib.Path.cwd() / 'assets' / 'Tiles' / "GrassUpDirt.png")
             wall.center_x = i
             wall.center_y = 32
             self.wall_list.append(wall)
