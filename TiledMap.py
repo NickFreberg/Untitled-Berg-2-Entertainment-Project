@@ -25,12 +25,6 @@ class PlayerSprite(arcade.AnimatedWalkingSprite):
         return self.strength
 
 
-class ItemSprite(arcade.AnimatedTimeSprite):
-
-    def __init__(self, name:str, game_level):
-        self.name = name
-        self.level = game_level
-
 
 class MultiLayeredWindow (arcade.Window):
     def __init__(self):
