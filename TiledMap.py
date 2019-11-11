@@ -8,7 +8,6 @@ W_HEIGHT = 1000
 
 PLYR_MOVE_SPEED = 5
 
-
 class PlayerSprite(arcade.AnimatedWalkingSprite):
     def __init__(self, scale:float, speed:int, life:int, game_window, strength:int):
         super().__init__()
@@ -23,7 +22,6 @@ class PlayerSprite(arcade.AnimatedWalkingSprite):
 
     def return_strength(self):
         return self.strength
-
 
 
 class MultiLayeredWindow (arcade.Window):
@@ -60,25 +58,27 @@ class MultiLayeredWindow (arcade.Window):
 
     def animate_player_sprite(self):
         # player setup
-        playerPath = pathlib.Path.cwd() / 'Assets' / 'scottpilgrim.png'
+        playerIdlePath = pathlib.Path.cwd() / 'Assets' / 'player' / 'Idle.png'
+        playerRunPath = pathlib.Path.cwd() / 'Assets' / 'player' / 'Run.png'
         self.playerList = arcade.SpriteList()
-        self.player = PlayerSprite(.5, PLYR_MOVE_SPEED, 1, game_window=self, strength=3)
+        self.player = PlayerSprite(1, PLYR_MOVE_SPEED, 1, game_window=self, strength=3)
         self.player.center_x = 500
         self.player.center_y = 800
-        frame = arcade.load_texture(str(playerPath), 0, 0, height=140, width=108)
         self.player.stand_right_textures = []
-        self.player.stand_right_textures.append(frame)
-        self.player.texture = frame
-        frame = arcade.load_texture(str(playerPath), 0, 140, height=140, width=108)
         self.player.stand_left_textures = []
+        frame = arcade.load_texture(str(playerIdlePath), 0, 0, height=137, width=184)
+        self.player.texture = frame
+        self.player.stand_right_textures.append(frame)
+        frame = arcade.load_texture(str(playerIdlePath), 0, 0, height=137, width=184, mirrored=True)
         self.player.stand_left_textures.append(frame)
+
         self.player.walk_right_textures = []
         self.player.walk_left_textures = []
-        for image_num in range(8):
-            frame = arcade.load_texture(str(playerPath), image_num * 108, 0, height=140, width=108)
+        for image_num in range(6):
+            frame = arcade.load_texture(str(playerRunPath), image_num * 184, 0, height=137, width=184)
             self.player.walk_right_textures.append(frame)
-        for image_num in range(8):
-            frame = arcade.load_texture(str(playerPath), image_num * 108, 140, height=140, width=108)
+        for image_num in range(6):
+            frame = arcade.load_texture(str(playerRunPath), image_num * 184, 0, height=137, width=184, mirrored=True)
             self.player.walk_left_textures.append(frame)
         self.playerList.append(self.player)
 
@@ -124,7 +124,7 @@ class MultiLayeredWindow (arcade.Window):
 
         self.playerList.update()
         self.playerList.update_animation()
-        self.strengthCoin.update_animation()
+        self.strCoinList.update_animation()
 
         # collision test power up here
         for self.strengthCoin in self.strCoinList:
