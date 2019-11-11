@@ -8,6 +8,7 @@ W_HEIGHT = 1000
 
 PLYR_MOVE_SPEED = 5
 
+
 class PlayerSprite(arcade.AnimatedWalkingSprite):
     def __init__(self, scale:float, speed:int, life:int, game_window, strength:int):
         super().__init__()
@@ -24,59 +25,44 @@ class PlayerSprite(arcade.AnimatedWalkingSprite):
         return self.strength
 
 
+class ItemSprite(arcade.AnimatedTimeSprite):
+
+    def __init__(self, name:str, game_level):
+        self.name = name
+        self.level = game_level
 
 
 class MultiLayeredWindow (arcade.Window):
     def __init__(self):
         super().__init__(W_WIDTH, W_HEIGHT, "Layerssz")
-
-        self.tileset_loc = pathlib.Path.cwd() / 'Assets' / 'RPG.tsx'
-        self.map_location = pathlib.Path.cwd() / 'Assets' / 'Test.tmx'
-        #self.map_location = pathlib.Path.cwd() / 'Assets' / 'test.tmx'
-        self.floorlist = None
-        self.wallslist = None
-        self.doorslist = None
-        self.bedlist = None
-        self.obstacleslist = None
-        self.randolist = None
-        self.simple_Physics:arcade.PhysicsEngineSimple = None
+        self.maplist = None
 
 
         #player inits
         self.player = None
         self.playerList = None
-
+        self.player_inventory = []
         #power ups/objects
         self.strengthCoin = None
-        self.powerUpList = None
+        self.strCoinList = None
 
     def setup(self):
         arcade.set_background_color(arcade.color.RED_DEVIL)
         self.animate_player_sprite()
-        self.spawn_power_up(300, 300)
+        self.spawn_strength_coin("coin_gold.png", 600, 800)
 
-        sample__map = arcade.tilemap.read_tmx(str(self.map_location))
-        self.floorlist = arcade.tilemap.process_layer(sample__map, "Floor", 1)
-        self.wallslist = arcade.tilemap.process_layer(sample__map, "Wall", 1)
-       # self.doorslist = arcade.tilemap.process_layer(sample__map, "Doors", 1)
-        #self.bedlist = arcade.tilemap.process_layer(sample__map, "bed", 1)
-        #self.obstacleslist = arcade.tilemap.process_layer(sample__map, "Obstacles/Furniture", 1)
-        #self.randolist = arcade.tilemap.process_layer(sample__map, "Tile Layer 6", 1)
+    def spawn_strength_coin(self, img_path, x, y):
 
-        self.simple_Physics = arcade.PhysicsEngineSimple(self.player, self.wallslist)
-
-
-    def spawn_power_up(self, x, y):
-
-        strengthCoinPath = pathlib.Path.cwd() / 'Assets' / 'coin_gold.png'
-        self.powerUpList = arcade.SpriteList()
-        self.strengthCoin1 = arcade.AnimatedTimeSprite(1, center_x=x, center_y=y)
+        strength_coin_Path = pathlib.Path.cwd() / 'Assets' / str(img_path)
+        self.strCoinList = arcade.SpriteList()
+        self.strengthCoin = arcade.AnimatedTimeSprite(1, center_x=x, center_y=y)
         coin_frames = []
         for col in range(8):
-            frame = arcade.load_texture(str(strengthCoinPath), x=col*32, y=0, height=32, width=32)
+            frame = arcade.load_texture(str(strength_coin_Path), x=col*32, y=0, height=32, width=32)
             coin_frames.append(frame)
-        self.strengthCoin1.textures = coin_frames
-        self.powerUpList.append(self.strengthCoin1)
+        self.strengthCoin.textures = coin_frames
+        self.strCoinList.append(self.strengthCoin)
+
 
     def animate_player_sprite(self):
         # player setup
@@ -102,6 +88,12 @@ class MultiLayeredWindow (arcade.Window):
             self.player.walk_left_textures.append(frame)
         self.playerList.append(self.player)
 
+    def manageInventory(self):
+
+        for power in self.player_inventory:
+            print(str(power))
+            print("x")
+
     def on_key_press(self, key: int, modifiers: int):
         """ Movement"""
         if key == arcade.key.LEFT:
@@ -115,6 +107,7 @@ class MultiLayeredWindow (arcade.Window):
 
         elif key == arcade.key.SPACE:
             print(self.player.strength)
+
 
     def on_key_release(self, key: int, modifiers: int):
         """ Movement"""
@@ -130,29 +123,22 @@ class MultiLayeredWindow (arcade.Window):
     def on_draw(self):
         arcade.start_render()
         self.playerList.draw()
-        self.powerUpList.draw()
-        self.floorlist.draw()
-        self.wallslist.draw()
-      #  self.doorslist.draw()
-      #  self.bedlist.draw()
-       # self.obstacleslist.draw()
-       # self.randolist.draw()
+        self.strCoinList.draw()
 
-        #self.maplist.draw()
-        #self.walllist.draw()
 
     def on_update(self, delta_time: float):
 
         self.playerList.update()
         self.playerList.update_animation()
-        self.strengthCoin1.update_animation()
+        self.strengthCoin.update_animation()
 
         # collision test power up here
-        for self.strengthCoin in self.powerUpList:
+        for self.strengthCoin in self.strCoinList:
             items_touched = arcade.check_for_collision_with_list(self.strengthCoin, self.playerList)
             if len(items_touched) > 0:
                 self.strengthCoin.kill()
                 self.player.strength += 1
+                self.player_inventory.append(self.strengthCoin)
 
 
 
