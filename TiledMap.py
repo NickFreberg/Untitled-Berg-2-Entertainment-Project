@@ -68,10 +68,9 @@ class MultiLayeredWindow (arcade.Window):
 
     def setup(self):
         arcade.set_background_color(arcade.color.BLIZZARD_BLUE)
-
+        self.intro()
         self.strCoinList = arcade.SpriteList()
         self.enemyList = arcade.SpriteList()
-
         self.spawn_strength_coin("coin_gold.png", 700, 600)
         self.spawn_strength_coin("coin_gold.png", 800, 600)
         self.spawn_skull()
@@ -198,12 +197,16 @@ class MultiLayeredWindow (arcade.Window):
                 self.player.strength += 1
                 self.player_inventory.append(self.strengthCoin)
 
+    def intro(self):
+        output = f"Player strength: {0}"
+        arcade.draw_text(output, 10, 10, arcade.color.WHITE, 13)
+
+
 
 def main():
     """The Main Method"""
     window = MultiLayeredWindow()
     window.setup()
-    window.on_update(1.0)
     arcade.run()
 
 
