@@ -131,6 +131,7 @@ class MultiLayeredWindow (arcade.Window):
 
         # collision test power up here
         for self.strengthCoin in self.strCoinList:
+            self.strengthCoin.draw()
             items_touched = arcade.check_for_collision_with_list(self.strengthCoin, self.playerList)
             if len(items_touched) > 0:
                 self.strengthCoin.kill()
