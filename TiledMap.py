@@ -24,6 +24,22 @@ class PlayerSprite(arcade.AnimatedWalkingSprite):
         return self.strength
 
 
+class EnemySprite(arcade.AnimatedWalkingSprite):
+    def __init__(self, scale: float, speed: int, life: int, game_window, strength: int):
+        super().__init__()
+        self.scale = scale
+        self.speed = speed
+        self.life = life
+        self.game = game_window
+        self.strength = strength
+
+    def return_life(self):
+        return self.life
+
+    def return_strength(self):
+        return self.strength
+
+
 class MultiLayeredWindow (arcade.Window):
     def __init__(self):
         super().__init__(W_WIDTH, W_HEIGHT, "Layerssz")
@@ -38,8 +54,14 @@ class MultiLayeredWindow (arcade.Window):
         self.strengthCoin = None
         self.strCoinList = None
 
+        # enemies inits
+        self.firstEnemy = None
+        self.enemyList = None
+
     def setup(self):
         arcade.set_background_color(arcade.color.RED_DEVIL)
+
+        self.strCoinList = arcade.SpriteList()
 
         self.spawn_strength_coin("coin_gold.png", 700, 600)
         self.spawn_strength_coin("coin_gold.png", 800, 600)
@@ -47,7 +69,7 @@ class MultiLayeredWindow (arcade.Window):
         playerIdlePath = pathlib.Path.cwd() / 'Assets' / 'player' / 'Idle.png'
         playerRunPath = pathlib.Path.cwd() / 'Assets' / 'player' / 'Run.png'
         self.playerList = arcade.SpriteList()
-        self.player = PlayerSprite(1, PLYR_MOVE_SPEED, 1, game_window=self, strength=3)
+        self.player = PlayerSprite(1, PLYR_MOVE_SPEED, 2, game_window=self, strength=3)
         self.player.center_x = 500
         self.player.center_y = 800
         self.player.stand_right_textures = []
@@ -72,7 +94,7 @@ class MultiLayeredWindow (arcade.Window):
     def spawn_strength_coin(self, img_path, x, y):
 
         strength_coin_Path = pathlib.Path.cwd() / 'Assets' / img_path
-        self.strCoinList = arcade.SpriteList()
+
         self.strengthCoin = arcade.AnimatedTimeSprite(1, center_x=x, center_y=y)
         coin_frames = []
         for col in range(8):
@@ -81,7 +103,7 @@ class MultiLayeredWindow (arcade.Window):
         self.strengthCoin.textures = coin_frames
         self.strCoinList.append(self.strengthCoin)
 
-
+    #def spawn_skull(self):
 
     def manageInventory(self):
         for power in self.player_inventory:
