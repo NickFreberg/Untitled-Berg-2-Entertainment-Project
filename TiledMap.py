@@ -51,7 +51,12 @@ class EnemySprite(arcade.AnimatedWalkingSprite):
 class MultiLayeredWindow (arcade.Window):
     def __init__(self):
         super().__init__(W_WIDTH, W_HEIGHT, "Layerssz")
-        self.maplist = None
+        # self.tileset_loc = pathlib.Path.cwd() / 'Assets' / 'RPG.tsx'
+        self.map_location = pathlib.Path.cwd() / 'Assets' / 'Test.tmx'
+        # self.map_location = pathlib.Path.cwd() / 'Assets' / 'test.tmx'
+        self.floorlist = None
+        self.wallslist = None
+        self.simple_Physics: arcade.PhysicsEngineSimple = None
 
 
         #player inits
@@ -69,11 +74,16 @@ class MultiLayeredWindow (arcade.Window):
     def setup(self):
         arcade.set_background_color(arcade.color.BLIZZARD_BLUE)
         self.intro()
+        sample__map = arcade.tilemap.read_tmx(str(self.map_location))
+        self.floorlist = arcade.tilemap.process_layer(sample__map, "Grass", 1)
+        self.wallslist = arcade.tilemap.process_layer(sample__map, "Trees", 1)
         self.strCoinList = arcade.SpriteList()
         self.enemyList = arcade.SpriteList()
         self.spawn_strength_coin("coin_gold.png", 700, 600)
         self.spawn_strength_coin("coin_gold.png", 800, 600)
         self.spawn_skull()
+
+        self.simple_Physics = arcade.PhysicsEngineSimple(self.player, self.wallslist)
 
         # player movement setup
         playerIdlePath = pathlib.Path.cwd() / 'Assets' / 'player' / 'Idle.png'
@@ -174,6 +184,8 @@ class MultiLayeredWindow (arcade.Window):
 
     def on_draw(self):
         arcade.start_render()
+        self.floorlist.draw()
+        self.wallslist.draw()
         self.playerList.draw()
 
         self.strCoinList.draw()
