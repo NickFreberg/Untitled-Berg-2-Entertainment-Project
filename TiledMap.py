@@ -52,7 +52,7 @@ class MultiLayeredWindow (arcade.Window):
     def __init__(self):
         super().__init__(W_WIDTH, W_HEIGHT, "Layerssz")
         # self.tileset_loc = pathlib.Path.cwd() / 'Assets' / 'RPG.tsx'
-        self.map_location = pathlib.Path.cwd() / 'Assets' / 'Test.tmx'
+        self.map_location = pathlib.Path.cwd() / 'Assets' / 'Map1.tmx'
         # self.map_location = pathlib.Path.cwd() / 'Assets' / 'test.tmx'
         self.floorlist = None
         self.wallslist = None
