@@ -3,166 +3,166 @@
  <tileset firstgid="1" name="Cute" tilewidth="16" tileheight="16" tilecount="54" columns="0">
   <grid orientation="orthogonal" width="1" height="1"/>
   <tile id="2">
-   <image width="16" height="16" source="Outdoors_00.png"/>
+   <image width="16" height="16" source="Assets/Outdoors_00.png"/>
   </tile>
   <tile id="3">
-   <image width="16" height="16" source="Outdoors_01.png"/>
+   <image width="16" height="16" source="Assets/Outdoors_01.png"/>
   </tile>
   <tile id="4">
-   <image width="16" height="16" source="Outdoors_02.png"/>
+   <image width="16" height="16" source="Assets/Outdoors_02.png"/>
   </tile>
   <tile id="5">
-   <image width="16" height="16" source="Outdoors_03.png"/>
+   <image width="16" height="16" source="Assets/Outdoors_03.png"/>
   </tile>
   <tile id="6">
-   <image width="16" height="16" source="Outdoors_04.png"/>
+   <image width="16" height="16" source="Assets/Outdoors_04.png"/>
   </tile>
   <tile id="7">
-   <image width="16" height="16" source="Outdoors_05.png"/>
+   <image width="16" height="16" source="Assets/Outdoors_05.png"/>
   </tile>
   <tile id="8">
-   <image width="16" height="16" source="Outdoors_06.png"/>
+   <image width="16" height="16" source="Assets/Outdoors_06.png"/>
   </tile>
   <tile id="9">
-   <image width="16" height="16" source="Outdoors_07.png"/>
+   <image width="16" height="16" source="Assets/Outdoors_07.png"/>
   </tile>
   <tile id="10">
-   <image width="16" height="16" source="Outdoors_08.png"/>
+   <image width="16" height="16" source="Assets/Outdoors_08.png"/>
   </tile>
   <tile id="11">
-   <image width="16" height="16" source="Outdoors_09.png"/>
+   <image width="16" height="16" source="Assets/Outdoors_09.png"/>
   </tile>
   <tile id="12">
-   <image width="16" height="16" source="Outdoors_10.png"/>
+   <image width="16" height="16" source="Assets/Outdoors_10.png"/>
   </tile>
   <tile id="13">
-   <image width="16" height="16" source="Outdoors_11.png"/>
+   <image width="16" height="16" source="Assets/Outdoors_11.png"/>
   </tile>
   <tile id="14">
-   <image width="16" height="16" source="Outdoors_12.png"/>
+   <image width="16" height="16" source="Assets/Outdoors_12.png"/>
   </tile>
   <tile id="15">
-   <image width="16" height="16" source="Outdoors_13.png"/>
+   <image width="16" height="16" source="Assets/Outdoors_13.png"/>
   </tile>
   <tile id="16">
-   <image width="16" height="16" source="Outdoors_14.png"/>
+   <image width="16" height="16" source="Assets/Outdoors_14.png"/>
   </tile>
   <tile id="17">
-   <image width="16" height="16" source="Outdoors_15.png"/>
+   <image width="16" height="16" source="Assets/Outdoors_15.png"/>
   </tile>
   <tile id="18">
-   <image width="16" height="16" source="Outdoors_16.png"/>
+   <image width="16" height="16" source="Assets/Outdoors_16.png"/>
   </tile>
   <tile id="19">
-   <image width="16" height="16" source="Outdoors_17.png"/>
+   <image width="16" height="16" source="Assets/Outdoors_17.png"/>
   </tile>
   <tile id="20">
-   <image width="16" height="16" source="Outdoors_18.png"/>
+   <image width="16" height="16" source="Assets/Outdoors_18.png"/>
   </tile>
   <tile id="21">
-   <image width="16" height="16" source="Outdoors_19.png"/>
+   <image width="16" height="16" source="Assets/Outdoors_19.png"/>
   </tile>
   <tile id="22">
-   <image width="16" height="16" source="Outdoors_20.png"/>
+   <image width="16" height="16" source="Assets/Outdoors_20.png"/>
   </tile>
   <tile id="23">
-   <image width="16" height="16" source="Outdoors_21.png"/>
+   <image width="16" height="16" source="Assets/Outdoors_21.png"/>
   </tile>
   <tile id="24">
-   <image width="16" height="16" source="Outdoors_22.png"/>
+   <image width="16" height="16" source="Assets/Outdoors_22.png"/>
   </tile>
   <tile id="25">
-   <image width="16" height="16" source="Outdoors_23.png"/>
+   <image width="16" height="16" source="Assets/Outdoors_23.png"/>
   </tile>
   <tile id="26">
-   <image width="16" height="16" source="Outdoors_24.png"/>
+   <image width="16" height="16" source="Assets/Outdoors_24.png"/>
   </tile>
   <tile id="27">
-   <image width="16" height="16" source="Outdoors_25.png"/>
+   <image width="16" height="16" source="Assets/Outdoors_25.png"/>
   </tile>
   <tile id="28">
-   <image width="16" height="16" source="Outdoors_26.png"/>
+   <image width="16" height="16" source="Assets/Outdoors_26.png"/>
   </tile>
   <tile id="29">
-   <image width="16" height="16" source="Outdoors_27.png"/>
+   <image width="16" height="16" source="Assets/Outdoors_27.png"/>
   </tile>
   <tile id="30">
-   <image width="16" height="16" source="Outdoors_28.png"/>
+   <image width="16" height="16" source="Assets/Outdoors_28.png"/>
   </tile>
   <tile id="31">
-   <image width="16" height="16" source="Outdoors_29.png"/>
+   <image width="16" height="16" source="Assets/Outdoors_29.png"/>
   </tile>
   <tile id="32">
-   <image width="16" height="16" source="Outdoors_30.png"/>
+   <image width="16" height="16" source="Assets/Outdoors_30.png"/>
   </tile>
   <tile id="33">
-   <image width="16" height="16" source="Outdoors_31.png"/>
+   <image width="16" height="16" source="Assets/Outdoors_31.png"/>
   </tile>
   <tile id="34">
-   <image width="16" height="16" source="Outdoors_32.png"/>
+   <image width="16" height="16" source="Assets/Outdoors_32.png"/>
   </tile>
   <tile id="35">
-   <image width="16" height="16" source="Outdoors_33.png"/>
+   <image width="16" height="16" source="Assets/Outdoors_33.png"/>
   </tile>
   <tile id="36">
-   <image width="16" height="16" source="Outdoors_34.png"/>
+   <image width="16" height="16" source="Assets/Outdoors_34.png"/>
   </tile>
   <tile id="37">
-   <image width="16" height="16" source="Outdoors_35.png"/>
+   <image width="16" height="16" source="Assets/Outdoors_35.png"/>
   </tile>
   <tile id="38">
-   <image width="16" height="16" source="Outdoors_36.png"/>
+   <image width="16" height="16" source="Assets/Outdoors_36.png"/>
   </tile>
   <tile id="39">
-   <image width="16" height="16" source="Outdoors_37.png"/>
+   <image width="16" height="16" source="Assets/Outdoors_37.png"/>
   </tile>
   <tile id="40">
-   <image width="16" height="16" source="Outdoors_38.png"/>
+   <image width="16" height="16" source="Assets/Outdoors_38.png"/>
   </tile>
   <tile id="41">
-   <image width="16" height="16" source="Outdoors_39.png"/>
+   <image width="16" height="16" source="Assets/Outdoors_39.png"/>
   </tile>
   <tile id="42">
-   <image width="16" height="16" source="Outdoors_40.png"/>
+   <image width="16" height="16" source="Assets/Outdoors_40.png"/>
   </tile>
   <tile id="43">
-   <image width="16" height="16" source="Outdoors_41.png"/>
+   <image width="16" height="16" source="Assets/Outdoors_41.png"/>
   </tile>
   <tile id="44">
-   <image width="16" height="16" source="Outdoors_42.png"/>
+   <image width="16" height="16" source="Assets/Outdoors_42.png"/>
   </tile>
   <tile id="45">
-   <image width="16" height="16" source="Outdoors_43.png"/>
+   <image width="16" height="16" source="Assets/Outdoors_43.png"/>
   </tile>
   <tile id="46">
-   <image width="16" height="16" source="Outdoors_44.png"/>
+   <image width="16" height="16" source="Assets/Outdoors_44.png"/>
   </tile>
   <tile id="47">
-   <image width="16" height="16" source="Outdoors_45.png"/>
+   <image width="16" height="16" source="Assets/Outdoors_45.png"/>
   </tile>
   <tile id="48">
-   <image width="16" height="16" source="Outdoors_46.png"/>
+   <image width="16" height="16" source="Assets/Outdoors_46.png"/>
   </tile>
   <tile id="49">
-   <image width="16" height="16" source="Outdoors_47.png"/>
+   <image width="16" height="16" source="Assets/Outdoors_47.png"/>
   </tile>
   <tile id="50">
-   <image width="16" height="16" source="Outdoors_48.png"/>
+   <image width="16" height="16" source="Assets/Outdoors_48.png"/>
   </tile>
   <tile id="51">
-   <image width="16" height="16" source="Outdoors_49.png"/>
+   <image width="16" height="16" source="Assets/Outdoors_49.png"/>
   </tile>
   <tile id="52">
-   <image width="16" height="16" source="Outdoors_50.png"/>
+   <image width="16" height="16" source="Assets/Outdoors_50.png"/>
   </tile>
   <tile id="53">
-   <image width="16" height="16" source="Outdoors_51.png"/>
+   <image width="16" height="16" source="Assets/Outdoors_51.png"/>
   </tile>
   <tile id="54">
-   <image width="16" height="16" source="Outdoors_52.png"/>
+   <image width="16" height="16" source="Assets/Outdoors_52.png"/>
   </tile>
   <tile id="55">
-   <image width="16" height="16" source="Outdoors_53.png"/>
+   <image width="16" height="16" source="Assets/Outdoors_53.png"/>
   </tile>
  </tileset>
  <layer id="1" name="Grass" width="20" height="20">
