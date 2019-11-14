@@ -113,8 +113,8 @@ class MultiLayeredWindow (arcade.Window):
         self.playerList.draw()
         self.powerUpList.draw()
 
-        #self.maplist.draw()
-        #self.walllist.draw()
+        self.maplist.draw()
+        self.walllist.draw()
 
     def on_update(self, delta_time: float):
 
