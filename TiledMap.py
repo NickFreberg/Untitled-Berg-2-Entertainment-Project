@@ -57,6 +57,7 @@ class MultiLayeredWindow (arcade.Window):
         self.floorlist = None
         self.wallslist = None
         self.pathlist = None
+        self.doorlist = None
         self.simple_Physics: arcade.PhysicsEngineSimple = None
 
 
@@ -79,6 +80,7 @@ class MultiLayeredWindow (arcade.Window):
         self.floorlist = arcade.tilemap.process_layer(sample__map, "Grass", 1)
         self.wallslist = arcade.tilemap.process_layer(sample__map, "Trees", 1)
         self.pathlist = arcade.tilemap.process_layer(sample__map, "Paths", 1)
+        self.doorlist = arcade.tilemap.process_layer(sample__map, "Doors", 1)
         self.strCoinList = arcade.SpriteList()
         self.enemyList = arcade.SpriteList()
         self.spawn_strength_coin("coin_gold.png", 700, 600)
@@ -192,6 +194,7 @@ class MultiLayeredWindow (arcade.Window):
         self.floorlist.draw()
         self.wallslist.draw()
         self.pathlist.draw()
+        self.doorlist.draw()
         self.playerList.draw()
         self.strCoinList.draw()
         self.enemyList.draw()
