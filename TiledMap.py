@@ -83,7 +83,7 @@ class MultiLayeredWindow (arcade.Window):
         self.spawn_strength_coin("coin_gold.png", 800, 600)
         self.spawn_skull()
 
-        self.simple_Physics = arcade.PhysicsEngineSimple(self.player, self.wallslist)
+#        self.simple_Physics = arcade.PhysicsEngineSimple(self.player, self.wallslist)
 
         # player movement setup
         playerIdlePath = pathlib.Path.cwd() / 'Assets' / 'player' / 'Idle.png'
