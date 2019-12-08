@@ -70,7 +70,8 @@ class MultiLayeredWindow(arcade.Window):
         self.spawn_strength_coin("coin_gold.png", 700, 600)
         self.spawn_strength_coin("coin_gold.png", 800, 600)
 
-        #enemy setup
+        #enemy setup - needs rework
+        """
         self.firstEnemy = EnemySkull(center_x=650, center_y=800)
         anim_frames = []
         for col in range(4):
@@ -78,7 +79,7 @@ class MultiLayeredWindow(arcade.Window):
             anim_frames.append(frame)
         self.firstEnemy.textures = anim_frames
         self.enemyList.append(self.firstEnemy)
-
+        """
 
 #        self.simple_Physics = arcade.PhysicsEngineSimple(self.player, self.wallslist)
 
@@ -161,11 +162,14 @@ class MultiLayeredWindow(arcade.Window):
         self.intro()
         self.strCoinList.draw()
 #        self.enemyList.draw()
-        self.firstEnemy.draw()
+        # self.firstEnemy.draw()
 
     def intro(self):
-            output = f"Player strength: " + str(self.player.strength)
-            arcade.draw_text(output, 50, 900, arcade.color.BLACK_BEAN, 13)
+        """actually just shows player's strength stat
+        will rework to include health"""
+
+        output = f"Player strength: " + str(self.player.strength)
+        arcade.draw_text(output, 50, 900, arcade.color.BLACK_BEAN, 13)
 
     def on_update(self, delta_time: float):
 
