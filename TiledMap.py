@@ -22,7 +22,7 @@ class EnemySkull(arcade.AnimatedTimeSprite):
     def _init_(self):
         super().__init__()
         self.speed = 2
-        self.life = 50
+        self.life = 5
         self.attack = 2
 
     def update(self):
@@ -74,46 +74,46 @@ class MultiLayeredWindow(arcade.Window):
         #enemy setup - needs rework
 
         self.firstEnemy = arcade.Sprite(str(self.skull_animation), image_width=54, image_height=70)
-        self.firstEnemy.position = 500, 500
+        self.firstEnemy.position = 900, 600
         self.enemyList.append(self.firstEnemy)
 
 
 #        self.simple_Physics = arcade.PhysicsEngineSimple(self.player, self.wallslist)
 
         # player movement setup
-        playerIdlePath = pathlib.Path.cwd() / 'Assets' / 'player' / 'Idle.png'
-        playerRunPath = pathlib.Path.cwd() / 'Assets' / 'player' / 'Run.png'
+        player_idle_ath = pathlib.Path.cwd() / 'Assets' / 'player' / 'Idle.png'
+        player_run_path = pathlib.Path.cwd() / 'Assets' / 'player' / 'Run.png'
         self.playerList = arcade.SpriteList()
-        self.player = PlayerSprite(1, PLYR_MOVE_SPEED, 2, game_window=self, strength=3)
+        self.player = PlayerSprite(1, PLYR_MOVE_SPEED, 10, game_window=self, strength=3)
         self.player.position = 500, 600
         self.player.stand_right_textures = []
         self.player.stand_left_textures = []
         #stand right/left
-        frame = arcade.load_texture(str(playerIdlePath), 0, 0, height=137, width=184)
+        frame = arcade.load_texture(str(player_idle_ath), 0, 0, height=137, width=184)
         self.player.texture = frame
         self.player.stand_right_textures.append(frame)
-        frame = arcade.load_texture(str(playerIdlePath), 0, 0, height=137, width=184, mirrored=True)
+        frame = arcade.load_texture(str(player_idle_ath), 0, 0, height=137, width=184, mirrored=True)
         self.player.stand_left_textures.append(frame)
         #walk right/left
         self.player.walk_right_textures = []
         self.player.walk_left_textures = []
         for image_num in range(8):
-            frame = arcade.load_texture(str(playerRunPath), image_num * 184, 0, height=137, width=184)
+            frame = arcade.load_texture(str(player_run_path), image_num * 184, 0, height=137, width=184)
             self.player.walk_right_textures.append(frame)
         for image_num in range(8):
-            frame = arcade.load_texture(str(playerRunPath), image_num * 184, 0, height=137, width=184, mirrored=True)
+            frame = arcade.load_texture(str(player_run_path), image_num * 184, 0, height=137, width=184, mirrored=True)
             self.player.walk_left_textures.append(frame)
 
         # end player movement
         # player attack textures start
         #player.state = FACE_RIGHT
-        playerAttackPath = pathlib.Path.cwd() / 'Assets' / 'player' / 'Attack1.png'
+        player_attack_path = pathlib.Path.cwd() / 'Assets' / 'player' / 'Attack1.png'
         for col in range(4):
-            plyr_atk_frame = arcade.load_texture(playerAttackPath, x=col * 184, width=184, height=137)
+            plyr_atk_frame = arcade.load_texture(player_attack_path, x=col * 184, width=184, height=137)
             self.player.append_texture(plyr_atk_frame)
         # state = FACE_LEFT
         for col in range(4):
-            plyr_atk_frame = arcade.load_texture(playerAttackPath, x=col * 184, width=184, height=137, mirrored=True)
+            plyr_atk_frame = arcade.load_texture(player_attack_path, x=col * 184, width=184, height=137, mirrored=True)
             self.player.append_texture(plyr_atk_frame)
 
         self.playerList.append(self.player)
@@ -179,10 +179,9 @@ class MultiLayeredWindow(arcade.Window):
         # self.firstEnemy.draw()
 
     def intro(self):
-        """actually just shows player's strength stat
-        will rework to include health"""
+        """displays life points"""
 
-        output = f"Player strength: " + str(self.player.strength)
+        output = f"Player Life points: " + str(self.player.life) + f"\nPlayer Strength points:" + str(self.player.Strength)
         arcade.draw_text(output, 50, 900, arcade.color.BLACK_BEAN, 13)
 
     def on_update(self, delta_time: float):
@@ -193,7 +192,20 @@ class MultiLayeredWindow(arcade.Window):
         self.strCoinList.update()
         self.strCoinList.update_animation()
 
-        # collision test power up here
+        # ENEMY ATK
+        #skull collision deals dmg
+        #-1 life point (lp)
+        # CHANGE THE sprite hit box value
+        # ADD DELAY
+        for self.firstEnemy in self.enemyList:
+            skull_atk = arcade.check_for_collision_with_list(self.player, self.enemyList)
+            if len(skull_atk) > 0:
+                self.player.life -= 1
+                self.firstEnemy.change_x -= 5
+
+
+        # PICK UP COIN
+        # ADDS  TO STR VAL
         for self.strengthCoin in self.strCoinList:
             items_touched = arcade.check_for_collision_with_list(self.strengthCoin, self.playerList)
             if len(items_touched) > 0:
