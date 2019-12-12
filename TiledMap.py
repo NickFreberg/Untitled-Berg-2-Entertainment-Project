@@ -9,10 +9,10 @@ W_HEIGHT = 1000
 PLYR_MOVE_SPEED = 5
 
 class PlayerSprite(arcade.AnimatedWalkingSprite):
-    def __init__(self, scale:float, speed:int, life:int, game_window, strength:int):
+    def __init__(self, scale:float, state:str, life:int, game_window, strength:int):
         super().__init__()
         self.scale = scale
-        self.speed = speed
+        self.state = state
         self.life = life
         self.game = game_window
         self.strength = strength
@@ -61,6 +61,7 @@ class MultiLayeredWindow(arcade.Window):
         self.enemyList = None
 
     def setup(self):
+        self.frame_count = 0.0
         arcade.set_background_color(arcade.color.BLIZZARD_BLUE)
 
         sample__map = arcade.tilemap.read_tmx(str(self.map_location))
@@ -71,10 +72,8 @@ class MultiLayeredWindow(arcade.Window):
         self.spawn_strength_coin("coin_gold.png", 700, 600)
         self.spawn_strength_coin("coin_gold.png", 800, 600)
 
-        #enemy setup - needs rework
-
-        self.firstEnemy = arcade.Sprite(str(self.skull_animation), image_width=54, image_height=70)
-        self.firstEnemy.position = 900, 600
+        #enemy setup - reg skull
+        self.firstEnemy = arcade.Sprite(str(self.skull_animation),scale=1, image_width=54, image_height=70, center_x= 900, center_y=600)
         self.enemyList.append(self.firstEnemy)
 
 
@@ -84,7 +83,7 @@ class MultiLayeredWindow(arcade.Window):
         player_idle_ath = pathlib.Path.cwd() / 'Assets' / 'player' / 'Idle.png'
         player_run_path = pathlib.Path.cwd() / 'Assets' / 'player' / 'Run.png'
         self.playerList = arcade.SpriteList()
-        self.player = PlayerSprite(1, PLYR_MOVE_SPEED, 10, game_window=self, strength=3)
+        self.player = PlayerSprite(1, "idle", 10, game_window=self, strength=3)
         self.player.position = 500, 600
         self.player.stand_right_textures = []
         self.player.stand_left_textures = []
@@ -106,19 +105,23 @@ class MultiLayeredWindow(arcade.Window):
 
         # end player movement
         # player attack textures start
-        #player.state = FACE_RIGHT
+
         player_attack_path = pathlib.Path.cwd() / 'Assets' / 'player' / 'Attack1.png'
         for col in range(4):
             plyr_atk_frame = arcade.load_texture(player_attack_path, x=col * 184, width=184, height=137)
             self.player.append_texture(plyr_atk_frame)
-        # state = FACE_LEFT
+
         for col in range(4):
             plyr_atk_frame = arcade.load_texture(player_attack_path, x=col * 184, width=184, height=137, mirrored=True)
             self.player.append_texture(plyr_atk_frame)
 
         self.playerList.append(self.player)
 
-
+    def intro(self):
+        """displays life points"""
+        output = f"Player Life points: " + str(self.player.life) + f"\nPlayer Strength points:" + str(
+            self.player.strength)
+        arcade.draw_text(output, 50, 900, arcade.color.BLACK_BEAN, 13)
 
     def spawn_strength_coin(self, img_path, x, y):
 
@@ -170,21 +173,21 @@ class MultiLayeredWindow(arcade.Window):
 
     def on_draw(self):
         arcade.start_render()
+        self.intro()
         self.floorlist.draw()
         self.wallslist.draw()
         self.playerList.draw()
-        self.intro()
         self.strCoinList.draw()
         self.enemyList.draw()
+
         # self.firstEnemy.draw()
 
-    def intro(self):
-        """displays life points"""
 
-        output = f"Player Life points: " + str(self.player.life) + f"\nPlayer Strength points:" + str(self.player.Strength)
-        arcade.draw_text(output, 50, 900, arcade.color.BLACK_BEAN, 13)
 
     def on_update(self, delta_time: float):
+
+        self.frame_count += .02
+        print(self.frame_count)
 
         self.playerList.update()
         self.playerList.update_animation()
@@ -199,9 +202,17 @@ class MultiLayeredWindow(arcade.Window):
         # ADD DELAY
         for self.firstEnemy in self.enemyList:
             skull_atk = arcade.check_for_collision_with_list(self.player, self.enemyList)
-            if len(skull_atk) > 0:
+            if len(skull_atk) > 0 and self.player.state != "damaged":
+            #rewrite for delay ^ len... && self.player.state != damaged
                 self.player.life -= 1
-                self.firstEnemy.change_x -= 5
+                self.player.state = "damaged"
+                if self.frame_count % 20 == 0:
+                    self.player.state = "idle"
+                #do function (delay), player is damaged and cannot be harmed, counts 2 frames, then sets player to undamaged state again
+                #an idea for delay:
+                #player has states, including damaged:Bool
+
+
 
 
         # PICK UP COIN
