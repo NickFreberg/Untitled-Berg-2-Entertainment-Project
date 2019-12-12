@@ -205,12 +205,7 @@ class MultiLayeredWindow(arcade.Window):
             if len(skull_atk) > 0 and self.player.state != "damaged":
             #rewrite for delay ^ len... && self.player.state != damaged
                 self.player.life -= 1
-                self.player.state = "damaged"
-                if self.frame_count % 20 == 0:
-                    self.player.state = "idle"
-                #do function (delay), player is damaged and cannot be harmed, counts 2 frames, then sets player to undamaged state again
-                #an idea for delay:
-                #player has states, including damaged:Bool
+                # get projctile
 
 
 
