@@ -17,16 +17,10 @@ class PlayerSprite(arcade.AnimatedWalkingSprite):
         self.game = game_window
         self.strength = strength
   # player attack textures start
-        """
-        player_attack_path = pathlib.Path.cwd() / 'Assets' / 'player' / 'Attack1.png'
-        for col in range(4):
-            plyr_atk_frame = arcade.load_texture(player_attack_path, x=col * 184, width=184, height=137)
-            self.player.append_texture(plyr_atk_frame)
+    #def update_animation(self):
 
-        for col in range(4):
-            plyr_atk_frame = arcade.load_texture(player_attack_path, x=col * 184, width=184, height=137, mirrored=True)
-            self.player.append_texture(plyr_atk_frame)
-"""
+
+
 class EnemySkull(arcade.AnimatedTimeSprite):
 
     def _init_(self):
@@ -112,14 +106,13 @@ class MultiLayeredWindow(arcade.Window):
         self.enemyList.append(self.firstEnemy)
 
 
-        # self.simple_Physics = arcade.PhysicsEngineSimple(self.player, self.wallslist)
 
         # player movement setup
 
         self.playerList = arcade.SpriteList()
 
         self.player = PlayerSprite(1, "idle", 10, game_window=self, strength=3)
-        self.player.position = 500, 600
+        self.player.position = 300, 100
 
         self.player.stand_right_textures = []
         self.player.stand_left_textures = []
@@ -140,8 +133,16 @@ class MultiLayeredWindow(arcade.Window):
             self.player.walk_left_textures.append(frame)
         self.playerList.append(self.player)
         # end player movement
+        player_attack_path = pathlib.Path.cwd() / 'Assets' / 'player' / 'Attack1.png'
+        for col in range(4):
+            plyr_atk_frame = arcade.load_texture(player_attack_path, x=col * 184, width=184, height=137)
+            self.player.append_texture(plyr_atk_frame)
 
+        for col in range(4):
+            plyr_atk_frame = arcade.load_texture(player_attack_path, x=col * 184, width=184, height=137, mirrored=True)
+            self.player.append_texture(plyr_atk_frame)
 
+        self.simple_Physics = arcade.PhysicsEngineSimple(self.player, self.wallslist)
 
     def intro(self):
         """displays life points"""
@@ -227,7 +228,7 @@ class MultiLayeredWindow(arcade.Window):
         arcade.start_render()
         self.intro()
         self.floorlist.draw()
-        self.wallslist.draw()
+        #self.wallslist.draw()
         self.wallslist.draw()
         self.doorlist.draw()
         self.bedlist.draw()
@@ -247,8 +248,8 @@ class MultiLayeredWindow(arcade.Window):
 
     def on_update(self, delta_time: float):
 
-        self.frame_count += .02
-        print(self.frame_count)
+        self.frame_count += 1
+        #print(self.frame_count)
 
         self.playerList.update()
         self.playerList.update_animation()
@@ -256,11 +257,8 @@ class MultiLayeredWindow(arcade.Window):
         self.strCoinList.update()
         self.strCoinList.update_animation()
 
-        # ENEMY ATK
-        #skull collision deals dmg
-        #-1 life point (lp)
-        # CHANGE THE sprite hit box value
-        # ADD DELAY
+        self.simple_Physics.update()
+
         """
         for self.firstEnemy in self.enemyList:
             skull_atk = arcade.check_for_collision_with_list(self.player, self.enemyList)
@@ -268,7 +266,7 @@ class MultiLayeredWindow(arcade.Window):
             #rewrite for delay ^ len... && self.player.state != damaged
                 self.player.life -= 1
                 # get projctile
-"""
+        """
 
 
 
