@@ -68,6 +68,8 @@ class MultiLayeredWindow(arcade.Window):
         self.enemyList = None
 
     def setup(self):
+        self.frame_count = 0
+
         arcade.set_background_color(arcade.color.BLACK)
 
         sample__map = arcade.tilemap.read_tmx(str(self.map_location))
@@ -213,6 +215,13 @@ class MultiLayeredWindow(arcade.Window):
 #        self.enemyList.draw()
         # self.firstEnemy.draw()
 
+    def check_for_collision(self):
+        if arcade.check_for_collision_with_list(self.player, self.doorlist):
+            #if we are on map1:
+            self.current_map += 1
+
+
+
     def intro(self):
         """actually just shows player's strength stat
         will rework to include health"""
@@ -221,6 +230,8 @@ class MultiLayeredWindow(arcade.Window):
         arcade.draw_text(output, 50, 900, arcade.color.BLUE_BELL, 13)
 
     def on_update(self, delta_time: float):
+
+        self.frame_count += 1
 
         self.playerList.update()
         self.playerList.update_animation()
