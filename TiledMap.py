@@ -8,6 +8,21 @@ W_HEIGHT = 608
 
 PLYR_MOVE_SPEED = 1
 
+class Node():
+    def __init__(self):
+        self.up: Node = None
+        self.down: Node = None
+        self.left: Node = None
+        self.right: Node = None
+
+    def _flood_fill(self, location: list, map, graph):
+        if location[1] > 0 and graph[location[1]-1][location[2]] != None:
+            return
+        if location[1] > 0 and graph[location[1]-1][location[2]] == None:
+            new_node = Node()
+            graph[location[1]-1][location[2]] = new_node
+
+
 class PlayerSprite(arcade.AnimatedWalkingSprite):
     def __init__(self, scale:float, state:str, life:int, game_window, strength:int):
         super().__init__()
