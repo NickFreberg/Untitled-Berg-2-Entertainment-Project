@@ -7,6 +7,23 @@ W_WIDTH = 608
 W_HEIGHT = 608
 
 PLYR_MOVE_SPEED = 5
+TILE_DIMENSION = 32
+
+class Node():
+    def __init__(self):
+        self.up: Node = None
+        self.down: Node = None
+        self.left: Node = None
+        self.right: Node = None
+
+    def _flood_fill(self, location: list, map, graph):
+        if location[1] > 0 and graph[location[1]-1][location[2]] != None:
+            return
+        if location[1] > 0 and graph[location[1]-1][location[2]] == None:
+            new_node = Node()
+            graph[location[1]-1][location[2]] = new_node
+
+
 
 class PlayerSprite(arcade.AnimatedWalkingSprite):
     def __init__(self, scale:float, state:str, life:int, game_window, strength:int):
@@ -97,12 +114,12 @@ class MultiLayeredWindow(arcade.Window):
         self.other2 = None
         self.strCoinList = arcade.SpriteList()
         self.enemyList = arcade.SpriteList()
-        self.spawn_strength_coin("coin_gold.png", 700, 600)
-        self.spawn_strength_coin("coin_gold.png", 800, 600)
+        self.spawn_strength_coin("coin_gold.png", 150, 300)
+        self.spawn_strength_coin("coin_gold.png", 350, 200)
         self.coin_sound = arcade.load_sound(pathlib.Path.cwd() / 'Assets' / 'Sounds' / 'Coin.wav')
 
         #enemy setup - reg skull
-        self.firstEnemy = arcade.Sprite(str(self.skull_animation),scale=1, image_width=54, image_height=70, center_x= 900, center_y=600)
+        self.firstEnemy = arcade.Sprite(str(self.skull_animation),scale=1, image_width=54, image_height=70, center_x= 350, center_y=100)
         self.enemyList.append(self.firstEnemy)
 
 
@@ -234,8 +251,8 @@ class MultiLayeredWindow(arcade.Window):
         self.bedlist.draw()
         self.playerList.draw()
 
-        self.other1.draw()
-        self.other2.draw()
+       # self.other1.draw()
+        #self.other2.draw()
         self.intro()
 
         self.strCoinList.draw()
@@ -256,19 +273,17 @@ class MultiLayeredWindow(arcade.Window):
 
         self.strCoinList.update()
         self.strCoinList.update_animation()
+        self.enemyList.update()
 
         self.simple_Physics.update()
 
-        """
+
         for self.firstEnemy in self.enemyList:
             skull_atk = arcade.check_for_collision_with_list(self.player, self.enemyList)
             if len(skull_atk) > 0 and self.player.state != "damaged":
             #rewrite for delay ^ len... && self.player.state != damaged
                 self.player.life -= 1
                 # get projctile
-        """
-
-
 
         # PICK UP COIN
         # ADDS  TO STR VAL
