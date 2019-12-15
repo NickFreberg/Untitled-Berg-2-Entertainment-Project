@@ -3,10 +3,10 @@
  <tileset firstgid="1" name="ffs_tiles" tilewidth="32" tileheight="32" tilecount="2" columns="0">
   <grid orientation="orthogonal" width="1" height="1"/>
   <tile id="0">
-   <image width="32" height="32" source="grass1.png"/>
+   <image width="32" height="32" source="Assets/4Rooms/grass1.png"/>
   </tile>
   <tile id="1">
-   <image width="32" height="32" source="wall1.png"/>
+   <image width="32" height="32" source="Assets/4Rooms/wall1.png"/>
   </tile>
  </tileset>
  <layer id="2" name="GRASS" width="20" height="20">
