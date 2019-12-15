@@ -53,7 +53,7 @@ class MultiLayeredWindow(arcade.Window):
         # self.tavern_map = pathlib.Path.cwd() / 'Assets' / 'Tavern.tmx'
         # self.map_location = pathlib.Path.cwd() / 'Assets' / 'test.tmx'
 
-        self.my_flood_map = pathlib.Path.cwd() / 'Assets' / '4Rooms' / '4ROOMS..tmx'
+        self.my_flood_map = pathlib.Path.cwd() / 'Assets' / '4Rooms' / '4ROOMS.tmx'
 
         self.player_idle_ath = pathlib.Path.cwd() / 'Assets' / 'player' / 'Idle.png'
         self.player_run_path = pathlib.Path.cwd() / 'Assets' / 'player' / 'Run.png'
@@ -132,7 +132,7 @@ class MultiLayeredWindow(arcade.Window):
         self.playerList = arcade.SpriteList()
 
         self.player = PlayerSprite(1, "idle", 10, game_window=self, strength=3)
-        self.player.position = 500, 600
+        self.player.position = 300, 300
 
         self.player.stand_right_textures = []
         self.player.stand_left_textures = []
