@@ -64,6 +64,8 @@ class MultiLayeredWindow(arcade.Window):
         # self.tavern_map = pathlib.Path.cwd() / 'Assets' / 'Tavern.tmx'
         # self.map_location = pathlib.Path.cwd() / 'Assets' / 'test.tmx'
 
+        self.my_flood_map = pathlib.Path.cwd() / 'Assets' / '4Rooms' / '4ROOMS..tmx'
+
         self.player_idle_ath = pathlib.Path.cwd() / 'Assets' / 'player' / 'Idle.png'
         self.player_run_path = pathlib.Path.cwd() / 'Assets' / 'player' / 'Run.png'
 
@@ -77,6 +79,10 @@ class MultiLayeredWindow(arcade.Window):
         self.other1 = None
         self.other2 = None
         self.simple_Physics: arcade.PhysicsEngineSimple = None
+
+        #spritelists for 4Rooms
+        self.flood_grass_list = None
+        self.flood_walls_list = None
 
         #player inits
         self.player = None
@@ -97,6 +103,12 @@ class MultiLayeredWindow(arcade.Window):
         self.frame_count = 0.0
         arcade.set_background_color(arcade.color.BLIZZARD_BLUE)
 
+        flood_map = arcade.tilemap.read_tmx(str(self.my_flood_map))
+        self.flood_walls_list = arcade.tilemap.process_layer(flood_map, "WALLS", 1)
+        self.flood_grass_list = arcade.tilemap.process_layer(flood_map, "GRASS", 1)
+
+
+
         sample__map = arcade.tilemap.read_tmx(str(self.map_location))
         outdoor_map = arcade.tilemap.read_tmx(str(self.outdoors_map))
         # tavern_map = arcade.tilemap.read_tmx(str(self.tavern_map))
@@ -106,10 +118,14 @@ class MultiLayeredWindow(arcade.Window):
         # self.bedlist = arcade.tilemap.process_layer(sample__map, "bed", 1)
         # self.other1 = arcade.tilemap.process_layer(sample__map, "Obstacles/Furniture", 1)
         # self.other2 = arcade.tilemap.process_layer(sample__map, "Tile Layer 6", 1)
+
         self.floorlist = arcade.tilemap.process_layer(outdoor_map, "Grass", 1)
         self.wallslist = arcade.tilemap.process_layer(outdoor_map, "Wall", 1)
         self.doorlist = arcade.tilemap.process_layer(outdoor_map, "Doors", 1)
         self.bedlist = arcade.tilemap.process_layer(outdoor_map, "Extra Wall", 1)
+
+
+
         self.other1 = None
         self.other2 = None
         self.strCoinList = arcade.SpriteList()
@@ -159,7 +175,7 @@ class MultiLayeredWindow(arcade.Window):
             plyr_atk_frame = arcade.load_texture(player_attack_path, x=col * 184, width=184, height=137, mirrored=True)
             self.player.append_texture(plyr_atk_frame)
 
-        self.simple_Physics = arcade.PhysicsEngineSimple(self.player, self.wallslist)
+     #   self.simple_Physics = arcade.PhysicsEngineSimple(self.player, self.wallslist)
 
     def intro(self):
         """displays life points"""
@@ -184,7 +200,7 @@ class MultiLayeredWindow(arcade.Window):
         for power in self.player_inventory:
             print(str(power))
             print("x")
-
+    """
     def check_for_map_change(self):
         collision = False
         for tile in self.doorlist:
@@ -204,7 +220,7 @@ class MultiLayeredWindow(arcade.Window):
                 '''Add enemies here'''
                 #change player's location
                 '''change player.center_x and player.center_y'''
-
+    """
     def on_key_press(self, key: int, modifiers: int):
         """ Movement"""
         if key == arcade.key.LEFT:
@@ -244,12 +260,17 @@ class MultiLayeredWindow(arcade.Window):
     def on_draw(self):
         arcade.start_render()
         self.intro()
+
         self.floorlist.draw()
         #self.wallslist.draw()
         self.wallslist.draw()
         self.doorlist.draw()
         self.bedlist.draw()
+
+        self.flood_grass_list.draw()
+        self.flood_walls_list.draw()
         self.playerList.draw()
+
 
        # self.other1.draw()
         #self.other2.draw()
@@ -275,7 +296,7 @@ class MultiLayeredWindow(arcade.Window):
         self.strCoinList.update_animation()
         self.enemyList.update()
 
-        self.simple_Physics.update()
+#        self.simple_Physics.update()
 
 
         for self.firstEnemy in self.enemyList:
