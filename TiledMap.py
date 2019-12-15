@@ -131,7 +131,7 @@ class MultiLayeredWindow(arcade.Window):
 
         self.playerList = arcade.SpriteList()
 
-        self.player = PlayerSprite(1, "idle", 10, game_window=self, strength=3)
+        self.player = PlayerSprite(.75, "idle", 10, game_window=self, strength=3)
         self.player.position = 300, 300
 
         self.player.stand_right_textures = []
@@ -145,18 +145,22 @@ class MultiLayeredWindow(arcade.Window):
         #walk right/left
         self.player.walk_right_textures = []
         self.player.walk_left_textures = []
+        self.player.walk_up_textures = []
+        self.player.walk_down_textures = []
         for image_num in range(7):
             frame = arcade.load_texture(str(self.player_run_path), image_num * 184, 0, height=137, width=184)
             self.player.walk_right_textures.append(frame)
+            self.player.walk_up_textures.append(frame)
         for image_num in range(7):
             frame = arcade.load_texture(str(self.player_run_path), image_num * 184, 0, height=137, width=184, mirrored=True)
             self.player.walk_left_textures.append(frame)
+            self.player.walk_down_textures.append(frame)
         self.playerList.append(self.player)
         # end player movement
 
 
 
-        #self.simple_Physics = arcade.PhysicsEngineSimple(self.player, self.wallslist)
+        self.simple_Physics = arcade.PhysicsEngineSimple(self.player, self.flood_walls_list)
 
 
     def intro(self):
@@ -292,7 +296,7 @@ class MultiLayeredWindow(arcade.Window):
         self.strCoinList.update_animation()
         self.enemyList.update()
 
-#        self.simple_Physics.update()
+        self.simple_Physics.update()
 
 
         # ENEMY ATK
