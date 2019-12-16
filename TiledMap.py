@@ -131,7 +131,7 @@ class MultiLayeredWindow(arcade.Window):
 
         self.playerList = arcade.SpriteList()
 
-        self.player = PlayerSprite(.75, "idle", 10, game_window=self, strength=3)
+        self.player = PlayerSprite(.5, "idle", 10, game_window=self, strength=3)
         self.player.position = 300, 300
 
         self.player.stand_right_textures = []
@@ -167,7 +167,7 @@ class MultiLayeredWindow(arcade.Window):
         """displays life points"""
         output = f"Player Life points: " + str(self.player.life) + f"\nPlayer Strength points:" + str(
             self.player.strength)
-        arcade.draw_text(output, 50, 900, arcade.color.BLACK_BEAN, 13)
+        arcade.draw_text(output, 50, 300, arcade.color.BLACK_BEAN, 13)
 
     def spawn_strength_coin(self, img_path, x, y):
 
@@ -247,11 +247,13 @@ class MultiLayeredWindow(arcade.Window):
         arcade.start_render()
         self.intro()
 
+        """
         self.floorlist.draw()
         self.wallslist.draw()
         self.wallslist.draw()
         self.doorlist.draw()
         self.bedlist.draw()
+        """
 
         self.flood_grass_list.draw()
         self.flood_walls_list.draw()
@@ -278,15 +280,10 @@ class MultiLayeredWindow(arcade.Window):
 
 
 
-    def intro(self):
-        """actually just shows player's strength stat
-        will rework to include health"""
-
-
 
     def on_update(self, delta_time: float):
 
-        self.frame_count += .02
+        self.frame_count += 1
         print(self.frame_count)
 
         self.playerList.update()
@@ -311,7 +308,7 @@ class MultiLayeredWindow(arcade.Window):
             #rewrite for delay ^ len... && self.player.state != damaged
                 self.player.life -= 1
                 # get projctile
-"""
+        """
 
 
 
