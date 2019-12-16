@@ -308,7 +308,7 @@ class MultiLayeredWindow(arcade.Window):
             #rewrite for delay ^ len... && self.player.state != damaged
                 self.player.life -= 1
                 # get projctile
-"""
+        """
 
 
 
