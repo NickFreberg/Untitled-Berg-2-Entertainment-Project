@@ -68,7 +68,6 @@ def floodFill(world, x, y, oldChar, newChar):
 
 
 floodFill(MAP, 1, 1, 0, 2)
-#print(floodFill(MAP, 1, 1, 0, 2))
-#print(len(MAP[2]))
-print_map(MAP)
+print(MAP[0])
+#print_map(MAP)
 
