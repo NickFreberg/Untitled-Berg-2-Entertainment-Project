@@ -1,6 +1,6 @@
 from array import *
 
-# map derived from Outdoors.tmx layer "Extra Walls"
+# map derived from 4Rooms.tmx layer "WALLS"
 MAP = [[1,1,1,1,1, 1,1,1,1,1, 1,1,1,1,1, 1,1,1,1,1],
        [1,0,0,0,0, 0,0,0,0,1, 1,0,0,0,0, 0,0,0,0,1],
        [1,0,0,0,0, 0,0,0,0,1, 1,0,0,0,0, 0,0,0,0,1],
