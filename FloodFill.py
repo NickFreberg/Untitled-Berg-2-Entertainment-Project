@@ -33,7 +33,7 @@ def print_map(map):
        for row in range(mapHeight):
               for col in range(mapWidth):
                      print(map[col][row])
-       print()
+              print()
 
 def floodFill(world, x, y, oldChar, newChar):
     # The recursive algorithm. Starting at x and y, changes any adjacent
