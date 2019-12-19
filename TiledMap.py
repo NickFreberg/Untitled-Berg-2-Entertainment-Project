@@ -1,6 +1,16 @@
 import arcade
 import pathlib
 
+# 2D RPG BY
+# NICK FREBERG AND RAINA MALMBERG
+# move with arrows keys
+# attack with SPACEBAR
+
+
+# UNFINISHED:
+# ENEMY AI
+# which was tested in FloodFill.py
+
 from enum import auto, Enum
 # GLOBALS
 W_WIDTH = 608
@@ -132,7 +142,7 @@ class MultiLayeredWindow(arcade.Window):
         self.strCoinList = arcade.SpriteList()
         self.enemyList = arcade.SpriteList()
         self.spawn_strength_coin("coin_gold.png", 120, 450)
-        self.spawn_strength_coin("coin_gold.png", 450, 250)
+        self.spawn_strength_coin("coin_gold.png", 450, 210)
 
         # Sounds
         self.player_sword_sound = arcade.load_sound(pathlib.Path.cwd() / 'Assets' / 'Sounds' / 'Sword.wav')
@@ -179,6 +189,13 @@ class MultiLayeredWindow(arcade.Window):
                                         center_x=450, center_y=450)
         self.enemyList.append(self.secondEnemy)
 
+        self.thirdEnemy = arcade.Sprite(str(self.skull_animation), scale=1, image_width=54, image_height=70,
+                                         center_x=150, center_y=150)
+        self.enemyList.append(self.thirdEnemy)
+
+        self.fourthEnemy = arcade.Sprite(str(self.skull_animation), scale=1, image_width=54, image_height=70,
+                                        center_x=450, center_y=150)
+        self.enemyList.append(self.fourthEnemy)
         self.simple_Physics = arcade.PhysicsEngineSimple(self.player, self.flood_walls_list)
 
     def move_enemy(self):
