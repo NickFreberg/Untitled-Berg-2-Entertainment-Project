@@ -2,15 +2,24 @@ from array import *
 
 
 class Node():
-    def __init__(self, weight, up, down, left, right):
-        self.weight = weight
+    def __init__(self, x_coord: int, y_coord:int):
+        self.weight = None
+        self.x = x_coord
+        self.y = y_coord
         self.up: Node = None
         self.down: Node = None
         self.left: Node = None
         self.right: Node = None
 
 
-# map derived from Outdoors.tmx layer "Extra Walls"
+    def print_node(self):
+        print(str(self.x) + ", " + str(self.y))
+
+
+
+
+# map derived from 4Rooms.tmx layer "WALLS"
+
 MAP = [[1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
        [1, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 1],
        [1, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 1],
@@ -32,90 +41,50 @@ MAP = [[1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
        [1, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 1],
        [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1]]
 
-test_build = [[1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
-              [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
-              [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
-              [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
-              [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
-              [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
-              [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
-              [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
-              [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
-              [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
-              [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
-              [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
-              [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
-              [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
-              [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
-              [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
-              [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
-              [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
-              [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
-              [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1]]
 
-wall_arr = [[0, 0, 0, 0, 0, 404, 404, 404, 404, 404, 404, 404, 404, 404, 404, 0, 19, 20, 0, 0],
-            [0, 0, 11, 12, 0, 404, 404, 404, 404, 404, 404, 404, 587, 587, 587, 0, 0, 0, 0, 0],
-            [0, 0, 19, 20, 0, 403, 403, 403, 403, 403, 403, 403, 403, 403, 403, 0, 0, 0, 0, 0],
-            [0, 0, 0, 0, 0, 414, 414, 414, 414, 414, 414, 414, 414, 414, 414, 0, 0, 0, 0, 0],
-            [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 179, 185, 185, 185, 185, 180, 0, 0],
-            [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 177, 0, 0, 0, 0, 177, 0, 0],
-            [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 177, 153, 154, 155, 0, 177, 0, ],
-            [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 177, 0, 0, 0, 0, 177, 0, 0],
-            [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 177, 153, 154, 155, 0, 177, 0, 0],
-            [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 177, 0, 0, 0, 0, 177, 0, 0],
-            [0, 0, 0, 0, 0, 0, 0, 229, 0, 0, 0, 0, 187, 185, 185, 185, 185, 188, 0, 0],
-            [0, 0, 0, 0, 451, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-            [0, 0, 0, 0, 451, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-            [0, 0, 0, 0, 451, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-            [0, 0, 0, 0, 451, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-            [450, 450, 450, 450, 451, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-            [449, 450, 450, 450, 451, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-            [457, 458, 458, 458, 459, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-            [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-            [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]]
-
-xtra_wall = [
-    [0, 0, 0, 0, 0, 1073742405, 1073742405, 1073742405, 1073742405, 1073742405, 1073742405, 1073742405, 1073742405,
-     1073742405, 1073742405, 0, 0, 0, 0, 0],
-    [0, 0, 0, 0, 0, 581, 581, 581, 581, 581, 581, 581, 581, 581, 581, 0, 0, 0, 0, 0],
-    [0, 0, 0, 0, 0, 0, 0, 598, 0, 0, 0, 0, 598, 0, 0, 0, 0, 0, 0, 0],
-    [0, 0, 0, 0, 0, 0, 0, 605, 0, 0, 0, 0, 605, 0, 0, 0, 0, 0, 0, 0],
-    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 179, 185, 156, 185, 185, 0, 0, 0],
-    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 164, 0, 0, 0, 0, 0],
-    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 159, 159, 159, 0, 0, 0, 0],
-    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 159, 159, 159, 0, 0, 0, 0],
-    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-    [579, 579, 579, 579, 579, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-    [579, 579, 579, 579, 579, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-    [579, 579, 579, 579, 579, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-    [579, 579, 579, 579, 579, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-    [587, 587, 587, 587, 587, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-    [0, 0, 0, 661, 451, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-    [6, 6, 6, 6, 6, 6, 6, 6, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-    [6, 6, 6, 6, 6, 6, 6, 6, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]]
-
-
-def build_node_weights(ground, wall):
-    mapWidth = len(ground)
+"""
+def build_node_weights(wall):
+    i=0
+    j=0
+    ground = [[]]
+    mapWidth = len(wall)
     print("mapWidth: ", mapWidth)
-    mapHeight = len(ground[0])
+    mapHeight = len(wall[0])
     print("mapHeight: ", mapHeight)
     # for every row in the array
-    for row in range(0, 19):
+    for row in range(mapWidth):
         # for every tile in this row
         for col in range(mapHeight):
             x = ground[col][row]
-            print("x = ", x)
-            y = wall[col][row]
-            print("y = ", y)
+            y = ground[col][row]
+            print("x = ", x + ", y = ", y)
             # if the tile isnt free (i.e. is a wall)
             if y != 0:
                 # set the weight to 1000
                 ground[col][row] = 1000
-    return ground
+        return ground
+"""
+"""
+def build_node_arr(weights):
+    big_arr = []
+    u = None
+    d = None
+    l = None
+    r = None
+
+    # we need to make 20 nodes per row
+    for thing in range(20):
+        #do it one row at a time and then append the entire row to the big array
+        row = []
+        for j in range(20):
+            #node creation
+            # will have to add logic to change the up down left and right to connect the nodes
+            new_node = Node(weights[thing][j], u, d, l, r)
+            #add the new node to the row
+            row.append(new_node)
+    # at the end of it all we should have a beautiful 20x20 array
+    return big_arr
+"""
 
 
 def print_map(map):
@@ -125,7 +94,7 @@ def print_map(map):
     for row in range(mapHeight):
         for col in range(mapWidth):
             print(map[col][row])
-    print()
+        print()
 
 
 def floodFill(world, x, y, oldChar, newChar):
@@ -147,48 +116,45 @@ def floodFill(world, x, y, oldChar, newChar):
 
     # Recursive calls. Make a recursive call as long as we are not on the
     # boundary (which would cause an Index Error.)
-    if x > 0:  # left
-        floodFill(world, x - 1, y, oldChar, newChar)
+    if x > 0: # left
+        floodFill(world, x-1, y, oldChar, newChar)
 
-    if y > 0:  # up
-        floodFill(world, x, y - 1, oldChar, newChar)
+    if y > 0: # up
+        floodFill(world, x, y-1, oldChar, newChar)
 
-    if x < worldWidth - 1:  # right
-        floodFill(world, x + 1, y, oldChar, newChar)
+    if x < worldWidth-1: # right
+        floodFill(world, x+1, y, oldChar, newChar)
 
-    if y < worldHeight - 1:  # down
-        floodFill(world, x, y + 1, oldChar, newChar)
-
-
-def build_node_arr(weights):
-    big_arr = []
-    u = None
-    d = None
-    l = None
-    r = None
-
-    # we need to make 20 nodes per row
-    for thing in range(20):
-        #do it one row at a time and then append the entire row to the big array
-        row = []
-        for j in range(20):
-            #node creation
-            # will have to add logic to change the up down left and right to connect the nodes
-            new_node = Node(weights[i][j], u, d, l, r)
-            #add the new node to the row
-            row.append(new_node)
-    # at the end of it all we should have a beautiful 20x20 array
-    return big_arr
+    if y < worldHeight-1: # down
+        floodFill(world, x, y+1, oldChar, newChar)
 
 
-# floodFill(MAP, 1, 1, 0, 2)
-# print(floodFill(MAP, 1, 1, 0, 2))
-# print(len(MAP[2]))
-# print_map(MAP)
+def getNumOfRooms(world):
+    worldWidth = len(world)
+    worldHeight = len(world[0])
 
-# Test_build is based off of Outdoors.tmv
-test_build = build_node_weights(test_build, wall_arr)
-test_build = build_node_weights(test_build, xtra_wall)
-for i in range(len(test_build[0])):
-    print(test_build[i])
-node_arr = build_node_arr(test_build)
+    roomCount = 0
+
+    for x in range(worldWidth):
+        for y in range(worldHeight):
+            # on each possible x, y empty space in the map, call floodfill.
+            if world[x][y] == 0:
+                floodFill(world, x, y, 0, 'x')
+
+                # comment out the next two lines if you don't want
+                # getNumOfRooms() to display output when called.
+                print_map(world)
+                print()
+
+                roomCount += 1
+    return roomCount
+
+
+myNode = Node(3,2)
+myNode.print_node()
+floodFill(MAP, 1, 1, 0, 2)
+print(MAP)
+
+
+
+#node_arr = build_node_arr(test_build)
