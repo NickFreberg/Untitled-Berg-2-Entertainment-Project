@@ -8,7 +8,26 @@ W_HEIGHT = 608
 
 PLYR_MOVE_SPEED = 5
 
+class Node:
+    def init(self):
+        self.up: Node = None
+        self.down: Node = None
+        self.left: Node = None
+        self.right: Node = None
+
+    def flood_fill(self, location: list, map, graph):
+        #pseudo code
+        # if location 1 and the other locations are not empty, return
+        if location[1] > 0 and graph[location[1]-1][location[2]] != None:
+            return
+        # if location 1
+        if location[1] > 0 and graph[location[1]-1][location[2]] == None:
+            myNode = Node()
+            graph[location[1]-1][location[2]] = myNode
+
+
 class PlayerSprite(arcade.AnimatedWalkingSprite):
+
     def __init__(self, scale:float, state:str, life:int, game_window, strength:int):
         super().__init__()
         self.scale = scale
@@ -16,27 +35,18 @@ class PlayerSprite(arcade.AnimatedWalkingSprite):
         self.life = life
         self.game = game_window
         self.strength = strength
-  # player attack textures start
-        """
+
+        # player attack textures start
+
         player_attack_path = pathlib.Path.cwd() / 'Assets' / 'player' / 'Attack1.png'
         for col in range(4):
             plyr_atk_frame = arcade.load_texture(player_attack_path, x=col * 184, width=184, height=137)
-            self.player.append_texture(plyr_atk_frame)
+            self.append_texture(plyr_atk_frame)
 
         for col in range(4):
             plyr_atk_frame = arcade.load_texture(player_attack_path, x=col * 184, width=184, height=137, mirrored=True)
-            self.player.append_texture(plyr_atk_frame)
-"""
-class EnemySkull(arcade.AnimatedTimeSprite):
+            self.append_texture(plyr_atk_frame)
 
-    def _init_(self):
-        super().__init__()
-        self.speed = 2
-        self.life = 5
-        self.attack = 2
-
-    def update(self):
-        self.center_x += 1
 
 
 
@@ -45,6 +55,7 @@ class MultiLayeredWindow(arcade.Window):
         super().__init__(W_WIDTH, W_HEIGHT, "Berg**2 Game")
 
         self.current_map = 0
+        self.kill_score = 0
 
         #some paths
         # self.tileset_loc = pathlib.Path.cwd() / 'Assets' / 'RPG.tsx'
@@ -82,9 +93,14 @@ class MultiLayeredWindow(arcade.Window):
         self.strengthCoin = None
         self.strCoinList = None
         self.coin_sound = None
+        self.player_sword_sound = None
+        self.skull_death = None
 
         # enemies inits
         self.firstEnemy = None
+        self.secondEnemy = None
+        self.thirdEnemy = None
+        self.fourthEnemy = None
         self.enemyList = None
 
     def setup(self):
@@ -96,10 +112,9 @@ class MultiLayeredWindow(arcade.Window):
         self.flood_walls_list = arcade.tilemap.process_layer(flood_map, "WALLS", 1)
         self.flood_grass_list = arcade.tilemap.process_layer(flood_map, "GRASS", 1)
 
-
-
         sample__map = arcade.tilemap.read_tmx(str(self.map_location))
         outdoor_map = arcade.tilemap.read_tmx(str(self.outdoors_map))
+
         # tavern_map = arcade.tilemap.read_tmx(str(self.tavern_map))
         # self.floorlist = arcade.tilemap.process_layer(sample__map, "floor", 1)
         # self.wallslist = arcade.tilemap.process_layer(sample__map, "Walls/Windows", 1)
@@ -116,16 +131,13 @@ class MultiLayeredWindow(arcade.Window):
         self.other2 = None
         self.strCoinList = arcade.SpriteList()
         self.enemyList = arcade.SpriteList()
-        self.spawn_strength_coin("coin_gold.png", 700, 600)
-        self.spawn_strength_coin("coin_gold.png", 800, 600)
+        self.spawn_strength_coin("coin_gold.png", 120, 450)
+        self.spawn_strength_coin("coin_gold.png", 450, 250)
+
+        # Sounds
+        self.player_sword_sound = arcade.load_sound(pathlib.Path.cwd() / 'Assets' / 'Sounds' / 'Sword.wav')
+        self.skull_death = arcade.load_sound(pathlib.Path.cwd() / 'Assets'/ 'Sounds' / 'EnemyDeath.wav')
         self.coin_sound = arcade.load_sound(pathlib.Path.cwd() / 'Assets' / 'Sounds' / 'Coin.wav')
-
-        #enemy setup - reg skull
-        self.firstEnemy = arcade.Sprite(str(self.skull_animation),scale=1, image_width=54, image_height=70, center_x= 900, center_y=600)
-        self.enemyList.append(self.firstEnemy)
-
-
-        # self.simple_Physics = arcade.PhysicsEngineSimple(self.player, self.wallslist)
 
         # player movement setup
 
@@ -148,26 +160,40 @@ class MultiLayeredWindow(arcade.Window):
         self.player.walk_up_textures = []
         self.player.walk_down_textures = []
         for image_num in range(7):
-            frame = arcade.load_texture(str(self.player_run_path), image_num * 184, 0, height=137, width=184)
+            frame = arcade.load_texture(str(self.player_run_path), image_num * 184, 0, height=125, width=184)
             self.player.walk_right_textures.append(frame)
             self.player.walk_up_textures.append(frame)
         for image_num in range(7):
-            frame = arcade.load_texture(str(self.player_run_path), image_num * 184, 0, height=137, width=184, mirrored=True)
+            frame = arcade.load_texture(str(self.player_run_path), image_num * 184, 0, height=125, width=184, mirrored=True)
             self.player.walk_left_textures.append(frame)
             self.player.walk_down_textures.append(frame)
         self.playerList.append(self.player)
         # end player movement
 
+        # enemy setup - reg skull
+        self.firstEnemy = arcade.Sprite(str(self.skull_animation), scale=1, image_width=54, image_height=70,
+                                        center_x=150, center_y=450)
+        self.enemyList.append(self.firstEnemy)
 
+        self.secondEnemy = arcade.Sprite(str(self.skull_animation), scale=1, image_width=54, image_height=70,
+                                        center_x=450, center_y=450)
+        self.enemyList.append(self.secondEnemy)
 
         self.simple_Physics = arcade.PhysicsEngineSimple(self.player, self.flood_walls_list)
 
+    def move_enemy(self):
+       # print(self.firstEnemy.center_x)
+
+            self.firstEnemy.change_x += 5
+
+        #    self.firstEnemy.change_x -= 5
 
     def intro(self):
         """displays life points"""
         output = f"Player Life points: " + str(self.player.life) + f"\nPlayer Strength points:" + str(
-            self.player.strength)
-        arcade.draw_text(output, 50, 300, arcade.color.BLACK_BEAN, 13)
+            self.player.strength) + f"\nKill Score:" + str(self.kill_score)
+        arcade.draw_lrtb_rectangle_filled(0, 170, 600, 550, arcade.color.WARM_BLACK)
+        arcade.draw_text(output, 0, 555, arcade.color.WHITE_SMOKE, 13)
 
     def spawn_strength_coin(self, img_path, x, y):
 
@@ -181,11 +207,7 @@ class MultiLayeredWindow(arcade.Window):
         self.strengthCoin.textures = coin_frames
         self.strCoinList.append(self.strengthCoin)
 
-    def manageInventory(self):
 
-        for power in self.player_inventory:
-            print(str(power))
-            print("x")
     """
     def check_for_map_change(self):
         collision = False
@@ -226,10 +248,13 @@ class MultiLayeredWindow(arcade.Window):
 
 
         if key == arcade.key.SPACE:
-          if self.player_direction == "right":
+            arcade.play_sound(self.player_sword_sound)
+            self.player.state = "attacking"
+            if self.player_direction == "right":
                 self.player.texture = self.player.textures[2]
-          elif self.player_direction == "left":
+            elif self.player_direction == "left":
                 self.player.texture = self.player.textures[6]
+
 
 
     def on_key_release(self, key: int, modifiers: int):
@@ -257,21 +282,18 @@ class MultiLayeredWindow(arcade.Window):
 
         self.flood_grass_list.draw()
         self.flood_walls_list.draw()
-        self.playerList.draw()
-
-        self.other1.draw()
-        self.other2.draw()
-
-
-       # self.other1.draw()
-        #self.other2.draw()
-
-        self.intro()
-
         self.strCoinList.draw()
         self.enemyList.draw()
+        self.playerList.draw()
+        self.intro()
 
-        # self.firstEnemy.draw()
+#        self.other1.draw()
+ #       self.other2.draw()
+
+
+        # self.other1.draw()
+        #self.other2.draw()
+
 
     def check_for_collision(self):
         if arcade.check_for_collision_with_list(self.player, self.doorlist):
@@ -284,7 +306,7 @@ class MultiLayeredWindow(arcade.Window):
     def on_update(self, delta_time: float):
 
         self.frame_count += 1
-        print(self.frame_count)
+      #  print(self.frame_count)
 
         self.playerList.update()
         self.playerList.update_animation()
@@ -294,23 +316,15 @@ class MultiLayeredWindow(arcade.Window):
         self.enemyList.update()
 
         self.simple_Physics.update()
+        #self.move_enemy()
 
-
-        # ENEMY ATK
-        #skull collision deals dmg
-        #-1 life point (lp)
-        # CHANGE THE sprite hit box value
-        # ADD DELAY
-        """
-        for self.firstEnemy in self.enemyList:
+        # ATK ENEMY
+        for enemy in self.enemyList:
             skull_atk = arcade.check_for_collision_with_list(self.player, self.enemyList)
-            if len(skull_atk) > 0 and self.player.state != "damaged":
-            #rewrite for delay ^ len... && self.player.state != damaged
-                self.player.life -= 1
-                # get projctile
-        """
-
-
+            if len(skull_atk) > 0 and self.player.state == "attacking" :
+                arcade.play_sound(self.skull_death)
+                self.kill_score +=1
+                enemy.kill()
 
         # PICK UP COIN
         # ADDS  TO STR VAL
